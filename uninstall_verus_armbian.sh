@@ -14,15 +14,15 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo -e "\n\nUninstall ccminer autostart configuration..."
-sudo systemctl stop mining.service
-sudo systemctl disable mining.service
-sudo rm /etc/systemd/system/mining.service
-sudo systemctl daemon-reload
+systemctl stop mining.service
+systemctl disable mining.service
+rm /etc/systemd/system/mining.service
+systemctl daemon-reload
 echo -e "ccminer verus autostart configuration removed successfully."
 
 echo -e "\nUninstall configuring ccminer verus..."
-sudo rm mining.sh
-sudo rm ccminer
+rm mining.sh
+rm ccminer
 echo -e "ccminer verus removed successfully."
 
 echo -e "\nYou can check by this command :"

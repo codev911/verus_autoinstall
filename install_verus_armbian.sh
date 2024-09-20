@@ -17,7 +17,7 @@ echo -e "\n\n"
 echo -e "Enter verus wallet (e.g. RUWXbSRWEmjKpXEM2MoFch9ZprTzouBCN1)"
 printf "%s" "Input wallet: "
 read WALLET
-echo -e "Enter miner pool (e.g. stratum+tcp://eu.luckpool.net:3956)"
+echo -e "Enter miner pool (e.g. stratum+tcp://ap.luckpool.net:3956)"
 printf "%s" "Input pool: "
 read MINERPOOL
 
@@ -67,13 +67,13 @@ SYSVER="$(uname -m)"
 echo -e "Your system architecture is ${SYSVER}."
 
 echo -e "\nInstalling required library..."
-sudo apt -qq update > /dev/null 2>&1
-sudo apt install -qq systemd git wget curl libomp-dev jq htop -y > /dev/null 2>&1
+apt -qq update > /dev/null 2>&1
+apt install -qq systemd git wget curl libomp-dev jq htop -y > /dev/null 2>&1
 if [ "$SYSVER" == "x86_64" ]; then
-    sudo apt install -qq libssl-dev -y > /dev/null 2>&1
+    apt install -qq libssl-dev -y > /dev/null 2>&1
 else
     wget -q http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1n-0+deb11u5_arm64.deb
-    sudo dpkg -i --quiet libssl1.1_1.1.1n-0+deb11u5_arm64.deb
+    dpkg -i --quiet libssl1.1_1.1.1n-0+deb11u5_arm64.deb
     rm libssl1.1_1.1.1n-0+deb11u5_arm64.deb
 fi
 echo "Required library installed successfully."
@@ -98,8 +98,8 @@ done < <(echo "$RELEASE_INFO" | jq -r '.assets[] | "\(.name) \(.browser_download
 echo "File Name: ${FILENAMES[0]}"
 echo "Download URL: ${DOWNLOAD_URLS[0]}"
 wget -q "${DOWNLOAD_URLS[0]}"
-sudo mv ${FILENAMES[0]} ccminer
-sudo chmod +x ccminer
+mv ${FILENAMES[0]} ccminer
+chmod +x ccminer
 echo "ccminer downloaded successfully."
 
 echo -e "\nStart configuring ccminer verus..."
@@ -107,13 +107,13 @@ echo -e "Configuring ccminer verus config..."
 CURRENTDIR=$(pwd)
 echo "#!/usr/bin/env bash" > mining.sh
 echo "$CURRENTDIR/ccminer -a verus -o $MINERPOOL -u $WALLET.$MINERNAME -p $PASS -t $THREAT" >> mining.sh
-sudo chmod +x mining.sh
+chmod +x mining.sh
 
 echo -e "Configuring ccminer autostart with systemctl..."
 echo -e "[Unit]\nDescription=Verus CCMINER\nAfter=network.target\n\n[Service]\nExecStart=$CURRENTDIR/mining.sh\n\n[Install]\nWantedBy=default.target" > /etc/systemd/system/mining.service
-sudo systemctl daemon-reload
-sudo systemctl enable mining.service
-sudo systemctl start mining.service
+systemctl daemon-reload
+systemctl enable mining.service
+systemctl start mining.service
 echo -e "ccminer verus configured successfully."
 
 echo -e "\nYou can check by this command :"
