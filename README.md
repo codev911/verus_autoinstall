@@ -6,6 +6,10 @@ This Bash script automates the installation and configuration of the Verus miner
 - Armbian 24 server (ARM amlogic s905l)
 - Ubuntu 24 desktop (x86_64)
 
+### Feature
+- Easy config for ccminer verus mining
+- Autostart on boot
+
 ### Usage
 - Clone the repository or download the script:
    ```bash
