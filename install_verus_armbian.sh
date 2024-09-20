@@ -73,7 +73,7 @@ if [ "$SYSVER" == "x86_64" ]; then
     apt install -qq libssl-dev -y > /dev/null 2>&1
 else
     wget -q http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1n-0+deb11u5_arm64.deb
-    dpkg -i --quiet libssl1.1_1.1.1n-0+deb11u5_arm64.deb
+    dpkg -i -q libssl1.1_1.1.1n-0+deb11u5_arm64.deb
     rm libssl1.1_1.1.1n-0+deb11u5_arm64.deb
 fi
 echo "Required library installed successfully."
