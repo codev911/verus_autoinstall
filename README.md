@@ -1,6 +1,6 @@
 # Verus Miner Setup Script
 
-This Bash script automates the installation and configuration of the Verus miner (ccminer) on a Linux system. It sets up the necessary libraries, downloads the latest ccminer release, and configures it to run as a service.
+This Bash script automates the installation and configuration of the Verus miner (ccminer) on a Linux system. It sets up the necessary libraries, downloads the latest ccminer release, and configures it to run as a service. Thanks to [Oink70](https://github.com/Oink70/ccminer-verus) for provided pre-compiled ccminer for verus.
 
 ### Tested
 - Armbian 24 server (ARM amlogic s905l)
