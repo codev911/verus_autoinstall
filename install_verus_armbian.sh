@@ -20,17 +20,24 @@ read WALLET
 echo -e "Enter miner pool (e.g. stratum+tcp://eu.luckpool.net:3956)"
 printf "%s" "Input pool: "
 read MINERPOOL
-echo -e "Enter miner name (e.g. VERUSMINER)"
-printf "%s" "Input name: "
-read MINERNAME
 
-# Validate threat input
+while true; do
+    echo -e "Enter miner name (max 64 alphanumeric characters)"
+    printf "%s" "Input name: "
+    read MINERNAME
+
+    if [[ "${#MINERNAME}" -le 64 ]] && [[ "$MINERNAME" =~ ^[a-zA-Z0-9]+$ ]]; then
+        break
+    else
+        echo "Invalid miner name. Please enter an alphanumeric name with a maximum length of 64 characters."
+    fi
+done
+
 while true; do
     echo -e "Enter amount of miner threat (e.g. 2, max: $(nproc))"
     printf "%s" "Input threat: "
     read THREAT
     
-    # Check if input is a number and within valid range
     if [[ "$THREAT" =~ ^[0-9]+$ ]] && [ "$THREAT" -le "$(nproc)" ]; then
         break
     else
@@ -38,7 +45,6 @@ while true; do
     fi
 done
 
-# Validate hybrid mode input
 while true; do
     printf "%s" "Use hybrid mode (y/n): "
     read ISHYBRID
@@ -64,11 +70,11 @@ echo -e "\nInstalling required library..."
 sudo apt -qq update > /dev/null 2>&1
 sudo apt install -qq systemd git wget curl libomp-dev jq htop -y > /dev/null 2>&1
 if [ "$SYSVER" == "x86_64" ]; then
-	sudo apt install -qq libssl-dev -y > /dev/null 2>&1
+    sudo apt install -qq libssl-dev -y > /dev/null 2>&1
 else
-	wget -q http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1n-0+deb11u5_arm64.deb
-	sudo dpkg -i --quiet libssl1.1_1.1.1n-0+deb11u5_arm64.deb
-	rm libssl1.1_1.1.1n-0+deb11u5_arm64.deb
+    wget -q http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1n-0+deb11u5_arm64.deb
+    sudo dpkg -i --quiet libssl1.1_1.1.1n-0+deb11u5_arm64.deb
+    rm libssl1.1_1.1.1n-0+deb11u5_arm64.deb
 fi
 echo "Required library installed successfully."
 
